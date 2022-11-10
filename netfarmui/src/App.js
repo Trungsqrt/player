@@ -40,6 +40,7 @@ function App() {
                 <Route path="/" element={<ClientHome />} />
                 <Route path="/detail/:id" element={<DetailArticle />} />
                 <Route path="/editArticle/:id" element={<ArticleHandler />} />
+                <Route path="/editSchedule/:id" element={<CalendarHandler />} />
                 <Route path="/inforPage" element={<InforPage />} />
                 <Route path="/inforPage/policy" element={<Policy />} />
                 <Route path="/inforPage/manual" element={<Manual />} />
@@ -54,6 +55,7 @@ function App() {
                 <Route path="/product/edit/:id" element={<EditProduct />} />
                 <Route path="/shop/checkout" element={<Checkout />} />
                 <Route path="/shop/orderlist" element={<OrderList />} />
+                <Route path="/expert" element={<ExpertPage />} />
                 <Route path="/manageProduct/addNewCategory" element={<AddCategory />} />
                 <Route path="/category/edit/:id" element={<EditCategory />} />
                 <Route path="/manage/OrderDetail/:id" element={<Order />} />
