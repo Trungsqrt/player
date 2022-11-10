@@ -95,9 +95,7 @@ function ExpertPage() {
         navigate(`/editArticle/${id}`);
     };
 
-    const handleEditSchedule = (id) => {
-        navigate(`/editSchedule/${id}`);
-    };
+    const handleEditArticle = () => {};
     return (
         <div>
             <Header />
@@ -178,7 +176,7 @@ function ExpertPage() {
                                             </th>
                                             <th
                                                 style={{ cursor: 'pointer' }}
-                                                onClick={() => handleEditSchedule(item.id)}
+                                                onClick={() => handleEditArticle(item.id)}
                                             >
                                                 &#128394;&#65039;
                                             </th>

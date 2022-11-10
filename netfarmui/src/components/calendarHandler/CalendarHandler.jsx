@@ -4,23 +4,17 @@ import { Editor } from '@tinymce/tinymce-react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import Header from '../admin_farm/share/header/Header';
-import { Link, Navigate, useParams, useNavigate } from 'react-router-dom';
 
 const url = 'https://localhost:44303/api/ScheduleTask';
 const url2 = 'https://localhost:44303/api/Schedule';
 
 function CalendarHandler() {
-    const { id } = useParams();
-    const idSchedule = id;
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [category, setCategory] = useState(1);
     const [title, setTitle] = useState('');
     const [scheduleIdcombo, setScheduledIdCombo] = useState([]);
     const [scheduleName, setScheduledName] = useState([]);
-    const [currentContent, setCurrentContent] = useState('');
-    const urlEdit = 'https://localhost:44303/api/ScheduleTask';
-    const navigate = useNavigate();
     useEffect(() => {
         axios.get(url2).then((response) => {
             const data = response.data;
@@ -31,57 +25,25 @@ function CalendarHandler() {
         });
     }, []);
 
-    const fillCurrentDataSchedule = async () => {
-        const url = `https://localhost:44303/api/ScheduleTask/${idSchedule}`;
-        const res = await axios.get(url);
-        const response = res.data;
-        setStart(response.dateStart.slice(0, 10));
-        setEnd(response.dateEnd.slice(0, 10));
-        setTitle(response.name);
-        setCategory(response.scheduleId);
-        setCurrentContent(response.description);
-    };
-
-    useEffect(() => {
-        if (idSchedule) {
-            fillCurrentDataSchedule();
-        }
-    }, []);
-
     function getText(html) {
         var divContainer = document.createElement('div');
         divContainer.innerHTML = html;
         return divContainer.textContent || divContainer.innerText || '';
     }
 
+    const editorRef = useRef();
     const onClickHandler = async () => {
-        let scheduleNew = {};
-        if (idSchedule) {
-            scheduleNew = {
-                id: idSchedule,
-                dateStart: new Date(start).toISOString(),
-                dateEnd: new Date(end).toISOString(),
-                scheduleId: category,
-                description: currentContent,
-                name: title,
-            };
-        } else {
-            scheduleNew = {
-                dateStart: new Date(start).toISOString(),
-                dateEnd: new Date(end).toISOString(),
-                scheduleId: category,
-                description: currentContent,
-                name: title,
-            };
-        }
+        const scheduleNew = {
+            dateStart: new Date(start).toISOString(),
+            dateEnd: new Date(end).toISOString(),
+            scheduleId: category,
+            description: getText(editorRef.current.getContent()),
+            name: title,
+        };
+        console.log(scheduleNew);
         try {
-            if (idSchedule) {
-                await axios.put(urlEdit + `/${idSchedule}`, scheduleNew);
-            } else {
-                await axios.post(url, scheduleNew);
-            }
+            const a = await axios.post(url, scheduleNew);
             alert('Đăng thành công!');
-            navigate('/calenderhandler');
             window.location.reload();
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
@@ -96,7 +58,7 @@ function CalendarHandler() {
                 <div className={styles.textContainer}>
                     <p>Tiêu đề</p>
                     <input
-                        placeholder="Nhập tên thời vụ..."
+                        placeholder="Nhập tiêu đề..."
                         className={styles.input}
                         onChange={(e) => setTitle(e.target.value)}
                         value={title}
@@ -148,15 +110,19 @@ function CalendarHandler() {
                             Đăng
                         </button>
                     </div>
-                    <div>
-                        <textarea
-                            placeholder="Mô tả..."
-                            className={styles.textBox}
-                            required
-                            onChange={(e) => setCurrentContent(e.target.value)}
-                            value={currentContent}
-                        ></textarea>
-                    </div>
+                    <Editor
+                        onInit={(evt, editor) => (editorRef.current = editor)}
+                        init={{
+                            plugins: ['image', 'code', 'table', 'link', 'media', 'codesample'],
+                            toolbar: '',
+                            menubar: false,
+                            branding: false,
+                            init_instance_callback: function (editor) {
+                                var freeTiny = document.querySelector('.tox .tox-notification--in');
+                                freeTiny.style.display = 'none';
+                            },
+                        }}
+                    />
                 </div>
             </div>
         </div>
