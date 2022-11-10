@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
 import './Header.css';
-import navbarImage from '../../../../assets/image/logonetfarm.png';
-import axios from 'axios';
 import styles from './Header.module.css';
-import ToolbarAdmin from '../../../detailBar/toolbarAdmin/ToolbarAdmin';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import navbarImage from '../../../../assets/image/logonetfarm.png';
+import ToolbarFarmer from '../../../detailBar/toolbarFarmer/ToolbarFarmer';
 import NotificationDetail from '../../../detailBar/notificationDetail/NotificationDetail';
-
+import { Link, useNavigate } from 'react-router-dom';
 const Header = () => {
     const url = 'https://api.openweathermap.org/data/2.5/weather?q=danang&appid=69424b95ee94abbbe370a393829f81e3';
 
+    const navigate = useNavigate();
     const [data, setData] = useState(null);
     const [error, setError] = useState('');
     const [loaded, setLoaded] = useState(false);
@@ -16,6 +17,7 @@ const Header = () => {
     const [timee, setTimee] = useState();
     const [notification, setNotification] = useState(false);
     const [toolbar, setToolbar] = useState(false);
+    const [isLoggin, setIsLoggin] = useState(false);
     let icon;
     useEffect(() => {
         axios.get(url).then((response) => {
@@ -28,6 +30,11 @@ const Header = () => {
             setIconState(icon);
         });
     }, []);
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        user ? setIsLoggin(true) : setIsLoggin(false);
+    }, [isLoggin]);
 
     function showNotificationHandler() {
         notification ? setNotification(false) : setNotification(true);
@@ -44,6 +51,27 @@ const Header = () => {
     function hideToolbar() {
         setToolbar(false);
     }
+
+    function cartHandler() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        // console.log('user', user);
+        if (user === null) return navigate('/login');
+        return navigate('/shop/cart');
+    }
+
+    let settingIcon = (
+        <section>
+            <button
+                className="button-setting"
+                onClick={showToolbar}
+                // onBlur={hideToolbar}
+            >
+                <i className="fa-solid fa-bars settings"></i>
+            </button>
+            {toolbar && <ToolbarFarmer />}
+        </section>
+    );
+
     return (
         <div style={{ backgroundColor: 'white' }}>
             <div className="container-navbar">
@@ -97,25 +125,26 @@ const Header = () => {
                     </div>
                     <div className="setting-group">
                         <section className={styles.notificationBox}>
+                            <button className="button-setting" onClick={cartHandler}>
+                                <i className="fa-solid fa-cart-shopping"></i>
+                            </button>
+                        </section>
+                        <section className={styles.notificationBox}>
                             <button
                                 className="button-setting"
                                 onClick={showNotificationHandler}
-                                onBlur={hideNotificationHandler}
+                                // onBlur={hideNotificationHandler}
                             >
                                 <i className="fa-solid fa-bell settings"></i>
                             </button>
                             {notification && <NotificationDetail />}
                         </section>
-                        <section>
-                            <button
-                                className="button-setting"
-                                onClick={showToolbar}
-                                // onBlur={hideToolbar}
-                            >
-                                <i className="fa-solid fa-bars settings"></i>
-                            </button>
-                            {toolbar && <ToolbarAdmin />}
-                        </section>
+                        {isLoggin && settingIcon}
+                        {!isLoggin && (
+                            <Link to="/login" className={styles.loginLink}>
+                                Đăng nhập/Đăng ký
+                            </Link>
+                        )}
                     </div>
                 </nav>
             </div>

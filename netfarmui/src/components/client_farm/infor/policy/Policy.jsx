@@ -16,7 +16,7 @@ const InforPage = () => {
             setArticles(articles);
             // // lấy các bài đăng thuộc category chính sách
             // trường hợp có nhiều bài thì lấy 3 nếu ko đúng bằng đồ dài của số bài đăng
-            const filterPolicy = data.filter((item) => item['category'] === 'chinhsach');
+            const filterPolicy = data.filter((item) => item['aCategoryName'] === 'chinhsach');
             setPolicyItems(filterPolicy);
         };
         fetchData();
@@ -30,11 +30,11 @@ const InforPage = () => {
                     <div className="menu">
                         <Menuleft></Menuleft>
                     </div>
-                    <div className="container">
+                    <div className="infor_container">
                         <div className="row">
                             <div className="section_title">Chính sách nhà nước</div>
                             <div>
-                                <div class="listarticle">
+                                <div className="listarticle">
                                     {policyItems
                                         ? policyItems.map((item, index) => (
                                               <Article

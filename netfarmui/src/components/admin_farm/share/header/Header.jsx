@@ -5,6 +5,7 @@ import axios from 'axios';
 import styles from './Header.module.css';
 import ToolbarAdmin from '../../../detailBar/toolbarAdmin/ToolbarAdmin';
 import NotificationDetail from '../../../detailBar/notificationDetail/NotificationDetail';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const url = 'https://api.openweathermap.org/data/2.5/weather?q=danang&appid=69424b95ee94abbbe370a393829f81e3';
@@ -16,6 +17,7 @@ const Header = () => {
     const [timee, setTimee] = useState();
     const [notification, setNotification] = useState(false);
     const [toolbar, setToolbar] = useState(false);
+    const [isLoggin, setIsLoggin] = useState(false);
     let icon;
     useEffect(() => {
         axios.get(url).then((response) => {
@@ -28,6 +30,11 @@ const Header = () => {
             setIconState(icon);
         });
     }, []);
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        user ? setIsLoggin(true) : setIsLoggin(false);
+    }, [isLoggin]);
 
     function showNotificationHandler() {
         notification ? setNotification(false) : setNotification(true);
@@ -45,7 +52,19 @@ const Header = () => {
         setToolbar(false);
     }
 
-    console.log(toolbar);
+    let settingIcon = (
+        <section>
+            <button
+                className="button-setting"
+                onClick={showToolbar}
+                // onBlur={hideToolbar}
+            >
+                <i className="fa-solid fa-bars settings"></i>
+            </button>
+            {toolbar && <ToolbarAdmin />}
+        </section>
+    );
+
     return (
         <div style={{ backgroundColor: 'white' }}>
             <div className="container-navbar">
@@ -75,13 +94,13 @@ const Header = () => {
                     </a>
                     <ul className="navbarTask">
                         <li>
-                            <a href="/">Trang chủ</a>
+                            <a href="/adminHome">Trang chủ</a>
                         </li>
                         <li>
-                            <a href="/inforPage">Thông tin</a>
+                            <a href="/admin">QL bài đăng</a>
                         </li>
                         <li>
-                            <a href="/shop">Mua hàng</a>
+                            <a href="/manageProduct">QL bán hàng</a>
                         </li>
                     </ul>
                     <form className="form-search">
@@ -108,16 +127,12 @@ const Header = () => {
                             </button>
                             {notification && <NotificationDetail />}
                         </section>
-                        <section>
-                            <button
-                                className="button-setting"
-                                onClick={showToolbar}
-                                // onBlur={hideToolbar}
-                            >
-                                <i className="fa-solid fa-bars settings"></i>
-                            </button>
-                            {toolbar && <ToolbarAdmin />}
-                        </section>
+                        {isLoggin && settingIcon}
+                        {!isLoggin && (
+                            <Link to="/login" className={styles.loginLink}>
+                                Đăng nhập/Đăng ký
+                            </Link>
+                        )}
                     </div>
                 </nav>
             </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './AdminPage.module.css';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import Header from '../admin_farm/share/header/Header';
 
 function AdminPage() {
     const userUrl = 'https://localhost:44303/api/Users';
@@ -10,7 +11,7 @@ function AdminPage() {
 
     const [data, setData] = useState([]);
     const navigate = useNavigate();
-    const [render, setRender] = useState(1); //true is render User, false is render Posts
+    const [render, setRender] = useState(1); //1: User, 2: Posts, 3:Schedule
     useEffect(() => {
         async function getData() {
             const Dataset = await axios.get(userUrl);
@@ -25,7 +26,6 @@ function AdminPage() {
                 setData((prevData) => [...prevData, value]);
             });
         }
-
         getData();
     }, []);
 
@@ -34,7 +34,6 @@ function AdminPage() {
         async function getData() {
             setData([]);
             const Dataset = await axios.get(userUrl);
-
             Dataset.data.forEach((item) => {
                 const value = {
                     id: item.id,
@@ -113,8 +112,17 @@ function AdminPage() {
         deleteHandler();
     };
 
+    const handleAddArticle = () => {
+        navigate('/ArticleHandler');
+    };
+
+    const handleAddSchedule = () => {
+        navigate('/CalenderHandler');
+    };
+
     return (
         <div>
+            <Header />
             <div className={styles.body}>
                 <div className={styles.container}>
                     <nav>
@@ -171,6 +179,7 @@ function AdminPage() {
                             )}
                             {render == 2 && (
                                 <tbody>
+                                    <i className="fa-solid fa-plus" onClick={handleAddArticle}></i>
                                     <tr>
                                         <th className={styles.th1}>Id</th>
                                         <th className={styles.th1}>Tiêu đề</th>
@@ -193,6 +202,7 @@ function AdminPage() {
 
                             {render == 3 && (
                                 <tbody>
+                                    <i className="fa-solid fa-plus" onClick={handleAddSchedule}></i>
                                     <tr>
                                         <th className={styles.th1}>Id</th>
                                         <th className={styles.th1}>Tên</th>
