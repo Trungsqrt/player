@@ -1,0 +1,31 @@
+@import url(./shared/globalStyles.css);
+
+:root {
+   --royal-blue: #6a72c7;
+   --yale-blue: #193276;
+   --periwinkle: #a9abd7;
+   --platinum: #dfdbe2;
+   --oxford-blue: #0d163e;
+   --delft-blue-l: #3d4274;
+   --delft-blue-b: #333761;
+   --pearl: #deddc1;
+   --beige: #e9e9cb;
+   --silver-lake-blue: #5487d3;
+   --blue: #1c3e84;
+}
+
+body {
+   margin: 0;
+   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   box-sizing: border-box;
+   background-color: #000000;
+}
+
+code {
+   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+}

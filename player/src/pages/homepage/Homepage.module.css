@@ -1,0 +1,7 @@
+.main-body {
+   height: 95vh;
+   width: 100vw;
+   background-color: var(--delft-blue-b);
+   border-radius: 30px;
+   display: flex;
+}
