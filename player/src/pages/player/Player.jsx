@@ -34,7 +34,11 @@ function Player() {
    return (
       <div className="screen-container flex">
          <div className={playerStyles["left-player-body"]}>
-            <AudioPlayer currentTrack={currentTrack} />
+            <AudioPlayer
+               currentTrack={currentTrack}
+               currentIndex={currentIndex}
+               setCurrentIndex={setCurrentIndex}
+            />
          </div>
          <div className={playerStyles["right-player-body"]}>
             <SongCard album={currentTrack?.album} />

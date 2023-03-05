@@ -37,12 +37,15 @@ const Circle = ({ color, percentage, size, strokeWidth }) => {
    );
 };
 
-function ProgressCircle({ percentage, isPlaying, size, color }) {
+function ProgressCircle({ percentage, isPlaying, size, color, image }) {
    return (
       <div>
          <svg width={size} height={size}>
             <g>
+               {/* display max length of a song */}
                <Circle strokeWidth={"0.3rem"} color="#3B4F73" size={size} />
+
+               {/* progressing of a song */}
                <Circle
                   strokeWidth={"0.5rem"}
                   color={color}
@@ -50,6 +53,38 @@ function ProgressCircle({ percentage, isPlaying, size, color }) {
                   percentage={percentage}
                />
             </g>
+            {/* define element and use it at a later */}
+            <defs>
+               {/* vinyl disk */}
+               <clipPath id="myCircle">
+                  <circle cx="50%" cy="50%" r={size / 2 - 30} fill="#FFFFFF" />
+               </clipPath>
+               {/* song image */}
+               <clipPath id="myInnerCircle">
+                  <circle cx="50%" cy="50%" r={size / 2 - 60} fill="#FFFFFF" />
+               </clipPath>
+            </defs>
+
+            {/* vinyl disk */}
+            <image
+               className={isPlaying ? progressStyle["active"] : ""}
+               x={30}
+               y={30}
+               width={2 * (size / 2 - 30)}
+               height={2 * (size / 2 - 30)}
+               href="https://res.cloudinary.com/dhheb6iy3/image/upload/v1677995794/vinyl_dsgqjm.png"
+               clipPath="url(#myCircle)"
+            />
+            {/* song image */}
+            <image
+               className={isPlaying ? progressStyle["active"] : ""}
+               x={60}
+               y={60}
+               width={2 * (size / 2 - 60)}
+               height={2 * (size / 2 - 60)}
+               href={image}
+               clipPath="url(#myInnerCircle)"
+            />
          </svg>
       </div>
    );

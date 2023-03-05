@@ -178,3 +178,49 @@ function ProgressCircle({ percentage, isPlaying, size, color }) {
 **The result**
 
 ![alt text](https://res.cloudinary.com/dhheb6iy3/image/upload/v1677749045/Screenshot_2023-03-02_162231_jbouwa.png)
+
+**create rotate disk/image playing**
+
+I defined elements and use it at a later
+
+```js
+<defs>
+   {/* vinyl disk */}
+   <clipPath id="myCircle">
+      <circle cx="50%" cy="50%" r={size / 2 - 30} fill="#FFFFFF" />
+   </clipPath>
+   {/* song image */}
+   <clipPath id="myInnerCircle">
+      <circle cx="50%" cy="50%" r={size / 2 - 60} fill="#FFFFFF" />
+   </clipPath>
+</defs>
+```
+
+I used here
+
+```js
+//vinyl disk
+<image
+   className={isPlaying ? progressStyle["active"] : ""}
+   x={30}
+   y={30}
+   width={2 * (size / 2 - 30)}
+   height={2 * (size / 2 - 30)}
+   href="https://pngimg.com/uploads/vinyl/vinyl_PNG107.png"
+   clipPath="url(#myCircle)"
+/>;
+
+// song image
+<image
+   className={isPlaying ? progressStyle["active"] : ""}
+   x={60}
+   y={60}
+   width={2 * (size / 2 - 60)}
+   height={2 * (size / 2 - 60)}
+   href={image}
+   clipPath="url(#myInnerCircle)"
+/>;
+```
+
+> x and y are coor of elements
+> width and height are width and height of 2 elements disk and image
