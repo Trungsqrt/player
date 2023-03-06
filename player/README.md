@@ -1,3 +1,10 @@
+**NOTICE**
+This project use authenticate with **spotify authentication**
+The **data of user** set to **localStorage** and will be **remove** when **close the tab**
+This project not implement the **refresh token**, so after 1 hour the token **will be expire**.
+Data(song, playlist,...) is the data of real spotify user account
+**This project is serve for study and research**
+
 **This document will describe the develop progress regardless the design (html or css)**
 
 # Setup spotify api
@@ -224,3 +231,80 @@ I used here
 
 > x and y are coor of elements
 > width and height are width and height of 2 elements disk and image
+
+# Audio Player
+
+**When chose a playlist**
+> Create new audioRef with data is first song in track
+> Initial new intervalRef for this audioRef to clearInterval when I need
+```js
+const audioRef = useRef(new Audio(total[0]?.track.preview_url));
+const intervalRef = useRef();
+```
+
+> When click a new track or pause/play this function will be run.
+> clearInterval to avoid memory leak and create new audioRef after
+```js
+  // this function update progress time each 0.9s
+   const startTimer = () => {
+      clearInterval(intervalRef.current);
+      
+      intervalRef.current = setInterval(() => {
+         if (audioRef.current.ended) {
+            handleNext();
+         } else {
+            setTrackProgress(audioRef.current.currentTime);
+         }
+      }, [900]);
+   };
+```
+
+> I also need to clearInterval when **unmount** component
+```js
+   useEffect(() => {
+      return () => {
+         audioRef.current.pause();
+         clearInterval(intervalRef.current);
+      };
+   }, []);
+```
+
+**pausing and playing handler**
+```js
+   useEffect(() => {
+      if (audioRef.current.src) {
+         if (isPlaying) {
+            audioRef.current.play();
+            startTimer();
+         } else {
+            clearInterval(intervalRef.current);
+            audioRef.current.pause();
+         }
+      } else {
+         if (isPlaying) {
+            audioRef.current = new Audio(audioSrc);
+            audioRef.current.play();
+            startTimer();
+         } else {
+            clearInterval(intervalRef.current);
+            audioRef.current.pause();
+         }
+      }
+   }, [isPlaying]);
+```
+
+**next and previous handler**
+```js
+   const handleNext = () => {
+      if (currentIndex < total.length - 1) {
+         setCurrentIndex(currentIndex + 1);
+      } else setCurrentIndex(0);
+   };
+
+   const handlePrev = () => {
+      if (currentIndex - 1 < 0) setCurrentIndex(total.length - 1);
+      else setCurrentIndex(currentIndex - 1);
+   };
+```
+
+*Will continue to add in the future*
