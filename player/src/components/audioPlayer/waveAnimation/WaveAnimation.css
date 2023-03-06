@@ -5,13 +5,13 @@
    --gutter: 8px;
    width: calc((var(--boxSize) + var(--gutter)) * 13);
    display: flex;
+   margin: 0 10px;
 }
 
 .box {
    transform: scale(0.4);
    height: 100%;
    width: var(--boxSize);
-   /* background: linear-gradient(40deg, #364562 20%, #c96850 100%) no-repeat; */
    background: linear-gradient(
          40deg,
          var(--delft-blue-l) 20%,

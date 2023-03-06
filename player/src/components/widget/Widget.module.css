@@ -1,0 +1,9 @@
+.widgets-body {
+   width: 95%;
+   height: fit-content;
+   margin: 8% auto 3%;
+   border-radius: 30px;
+   justify-content: space-evenly;
+   align-items: center;
+   display: flex;
+}

@@ -19,11 +19,10 @@
 
 .song-title {
    text-align: center;
-   font-size: 58px;
+   font-size: 25px;
    font-weight: bold;
    margin: 0px;
    color: #c4d0e3;
-   overflow: hidden;
    text-overflow: ellipsis;
    display: -webkit-box;
    -webkit-line-clamp: 2;

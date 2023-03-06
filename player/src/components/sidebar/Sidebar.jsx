@@ -48,7 +48,14 @@ function Sidebar() {
 
             <SidebarButton title="Library" to="/" icon={<IoLibrary />} />
          </div>
-         <SidebarButton title="Sign out" to="" icon={<FaSignOutAlt />} />
+         <div
+            onClick={() => {
+               localStorage.removeItem("token");
+               window.location.reload();
+            }}
+         >
+            <SidebarButton title="Sign out" icon={<FaSignOutAlt />} />
+         </div>
       </div>
    );
 }

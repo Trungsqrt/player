@@ -1,0 +1,38 @@
+.controls-wrapper {
+   width: 50%;
+   margin: 0px;
+   align-items: center;
+   justify-content: space-between;
+   display: flex;
+}
+
+.action-btn {
+   width: 70px;
+   height: 70px;
+   border-radius: 100%;
+   align-items: center;
+   justify-content: center;
+   cursor: pointer;
+   transition: all 0.2s ease-in-out;
+   display: flex;
+}
+
+.action-btn:hover {
+   transform: scale(1.05);
+}
+
+.play-pause-btn {
+   width: 40px;
+   height: 40px;
+   border-radius: 100%;
+   background-color: var(--silver-lake-blue);
+   align-items: center;
+   justify-content: center;
+   cursor: pointer;
+   transition: all 0.2s ease-in-out;
+   display: flex;
+}
+
+.play-pause-btn:hover {
+   transform: scale(1.05);
+}
