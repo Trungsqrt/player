@@ -1,8 +1,9 @@
 **NOTICE**
-This project use authenticate with **spotify authentication**
-The **data of user** set to **localStorage** and will be **remove** when **close the tab**
-This project not implement the **refresh token**, so after 1 hour the token **will be expire**.
-Data(song, playlist,...) is the data of real spotify user account
+
+- This project use authenticate with **spotify authentication**
+- The **data of user** set to **localStorage** and will be **remove** when **close the tab**
+- This project not implement the **refresh token**, so after 1 hour the token **will be expire**.
+- Data(song, playlist,...) is the data of real spotify user account
 **This project is serve for study and research**
 
 **This document will describe the develop progress regardless the design (html or css)**
